@@ -44,6 +44,11 @@
     *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
   }
 
+  button:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--deep-rose);
+    outline-offset:3px;
+  }
+
   /* floating petal field */
   #petal-field{
     position:fixed;
@@ -151,33 +156,15 @@
     50%{transform:rotate(6deg) translateY(-6px);}
   }
 
-  .chapter{
-    text-align:center;
-    margin-top:26px;
-    font-family:'Cormorant Garamond',serif;
-    font-weight:600;
-    font-size:2.05rem;
-    letter-spacing:0.01em;
-    color:var(--wine);
-    opacity:0;
-    animation:fadeUp 0.9s ease 0.5s forwards;
-  }
-  .chapter .age-num{
-    background:linear-gradient(120deg, var(--deep-rose), var(--gold) 60%, var(--deep-rose));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-
   .subline{
     text-align:center;
-    margin-top:8px;
+    margin-top:26px;
     font-size:0.98rem;
     color:#7a5a63;
     font-style:italic;
     font-family:'Cormorant Garamond',serif;
     opacity:0;
-    animation:fadeUp 0.9s ease 0.65s forwards;
+    animation:fadeUp 0.9s ease 0.5s forwards;
   }
 
   /* ---------- COUNTDOWN ---------- */
@@ -224,19 +211,7 @@
     font-weight:600;
   }
 
-  .celebration{
-    display:none;
-    font-family:'Cormorant Garamond',serif;
-    font-size:1.5rem;
-    font-weight:600;
-    color:var(--wine);
-    padding:26px 18px;
-    background:linear-gradient(160deg, #fffdfb, var(--blush));
-    border-radius:20px;
-    border:1px solid rgba(201,161,90,0.4);
-  }
-
-  /* ---------- GIFT SECTION ---------- */
+  /* ---------- GIFT TEASER SECTION (pre-birthday only) ---------- */
   .gift-section{
     margin-top:64px;
     text-align:center;
@@ -348,6 +323,310 @@
     color:var(--deep-rose);
   }
 
+  /* ---------- BIRTHDAY EXPERIENCE (revealed at Sept 26 00:00 local) ---------- */
+  .birthday-section{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .birthday-section.reveal{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .birthday-section[hidden]{display:none;}
+
+  .reveal-title{
+    text-align:center;
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:clamp(1.8rem, 7.5vw, 2.5rem);
+    color:var(--wine);
+    line-height:1.25;
+    margin-top:38px;
+    position:relative;
+  }
+  .reveal-glow{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:220px;
+    height:220px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(233,180,190,0.6) 0%, rgba(233,180,190,0) 70%);
+    filter:blur(10px);
+    z-index:-1;
+    animation:pulse-glow 4s ease-in-out infinite;
+  }
+
+  .reveal-message{
+    max-width:440px;
+    margin:22px auto 0;
+    text-align:center;
+    background:linear-gradient(160deg, #fffdfb, var(--blush));
+    border:1px solid rgba(201,161,90,0.4);
+    border-radius:20px;
+    padding:26px 24px;
+    box-shadow:0 16px 34px -16px rgba(181,100,111,0.4);
+  }
+  .reveal-message p{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--wine);
+    line-height:1.6;
+    margin-bottom:12px;
+  }
+  .reveal-message p:last-child{margin-bottom:0;}
+
+  .open-surprise-btn{
+    display:block;
+    margin:30px auto 0;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    color:#fff;
+    background:linear-gradient(135deg, var(--deep-rose), var(--gold) 130%);
+    border:none;
+    border-radius:999px;
+    padding:16px 34px;
+    box-shadow:0 14px 28px -10px rgba(181,100,111,0.55);
+    cursor:pointer;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .open-surprise-btn:active{
+    transform:scale(0.96);
+    box-shadow:0 8px 18px -8px rgba(181,100,111,0.55);
+  }
+
+  /* ---------- cinematic photo stage ---------- */
+  .photo-experience{
+    margin-top:56px;
+  }
+  .section-label{
+    text-align:center;
+    font-size:0.85rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--deep-rose);
+    font-weight:700;
+    margin-bottom:18px;
+  }
+  .photo-stage{
+    position:relative;
+    max-width:400px;
+    margin:0 auto;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 22px 44px -18px rgba(181,100,111,0.5);
+    background:var(--wine);
+  }
+  .stage-photo-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:4/5;
+    overflow:hidden;
+  }
+  .stage-photo{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 18%;
+    opacity:0;
+    transform:scale(1.08);
+    filter:blur(6px);
+    transition:opacity 1s ease, transform 1.1s ease, filter 1s ease;
+  }
+  .stage-photo.active{
+    opacity:1;
+    transform:scale(1);
+    filter:blur(0);
+  }
+  .stage-sweep{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.35) 50%, transparent 60%);
+    transform:translateX(-120%);
+    pointer-events:none;
+  }
+  .stage-sweep.sweep-active{
+    animation:sweep 1.1s ease forwards;
+  }
+  @keyframes sweep{
+    to{ transform:translateX(120%); }
+  }
+  .stage-caption-wrap{
+    background:linear-gradient(160deg, #fffdfb, var(--blush));
+    padding:20px 22px 22px;
+    text-align:center;
+    min-height:96px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .stage-caption{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.1rem;
+    color:var(--wine);
+    line-height:1.5;
+    opacity:0;
+    transform:translateY(8px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .stage-caption.active{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .stage-dots{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-top:16px;
+  }
+  .stage-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:rgba(181,100,111,0.3);
+    transition:background 0.3s ease, transform 0.3s ease;
+  }
+  .stage-dot.active{
+    background:var(--deep-rose);
+    transform:scale(1.25);
+  }
+  .stage-next-btn{
+    display:block;
+    margin:22px auto 0;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    color:var(--wine);
+    background:#fff;
+    border:1.5px solid var(--rose);
+    border-radius:999px;
+    padding:12px 28px;
+    cursor:pointer;
+    transition:transform 0.2s ease;
+  }
+  .stage-next-btn:active{ transform:scale(0.96); }
+
+  /* secret candle */
+  .secret-section{
+    margin-top:64px;
+    text-align:center;
+  }
+  .secret-lead{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.2rem;
+    color:var(--wine);
+    margin-bottom:4px;
+  }
+  .secret-sub{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--wine);
+    margin-bottom:6px;
+  }
+  .secret-hint{
+    font-size:0.85rem;
+    color:#9c7680;
+    margin-bottom:22px;
+  }
+  .candle-wrap{
+    position:relative;
+    width:100px;
+    margin:0 auto;
+    padding-top:40px;
+    cursor:pointer;
+    -webkit-user-select:none;
+    user-select:none;
+    touch-action:manipulation;
+    background:none;
+    border:none;
+  }
+  .candle-flame{
+    position:absolute;
+    top:6px;
+    left:50%;
+    transform:translateX(-50%);
+    width:18px;
+    height:28px;
+    background:radial-gradient(circle at 50% 30%, #fff6c8, #ffb648 45%, #ff7a30 75%, transparent 100%);
+    border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
+    animation:flicker 1.3s ease-in-out infinite;
+    transform-origin:bottom center;
+    transition:transform 0.9s ease, opacity 0.9s ease;
+  }
+  @keyframes flicker{
+    0%,100%{transform:translateX(-50%) scale(1) rotate(-2deg);}
+    50%{transform:translateX(-50%) scale(1.08) rotate(3deg);}
+  }
+  .candle-body{
+    width:30px;
+    height:64px;
+    margin:0 auto;
+    border-radius:5px 5px 2px 2px;
+    background:repeating-linear-gradient(180deg, #f7e3c8, #f7e3c8 8px, #f0d5ab 8px, #f0d5ab 16px);
+    box-shadow:0 10px 18px -8px rgba(181,100,111,0.4);
+    position:relative;
+  }
+  .candle-wrap.holding .candle-flame{
+    transform:translateX(-50%) scaleY(0.4);
+    animation:none;
+  }
+  .candle-wrap.blown .candle-flame{
+    transform:translateX(-50%) scaleY(0);
+    opacity:0;
+    animation:none;
+  }
+  .candle-wrap.blown .candle-body::after{
+    content:'💨';
+    position:absolute;
+    top:-6px;
+    left:50%;
+    font-size:1.3rem;
+    animation:puff 0.9s ease forwards;
+  }
+  @keyframes puff{
+    0%{opacity:0; transform:translate(-50%,0) scale(0.6);}
+    35%{opacity:1;}
+    100%{opacity:0; transform:translate(-50%,-26px) scale(1.3);}
+  }
+
+  .candle-message{
+    max-width:420px;
+    margin:24px auto 0;
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.1rem;
+    font-style:italic;
+    color:var(--wine);
+    line-height:1.5;
+  }
+
+  /* final message */
+  .final-section{
+    margin-top:64px;
+    text-align:center;
+  }
+  .final-card{
+    max-width:440px;
+    margin:0 auto;
+    background:linear-gradient(160deg, #fffdfb, var(--blush));
+    border:1px solid rgba(201,161,90,0.4);
+    border-radius:20px;
+    padding:28px 24px;
+    box-shadow:0 16px 34px -16px rgba(181,100,111,0.4);
+  }
+  .final-card p{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.2rem;
+    color:var(--wine);
+    line-height:1.6;
+  }
+
   footer{
     margin-top:70px;
     text-align:center;
@@ -357,7 +636,6 @@
   }
 
   @media (min-width:600px){
-    .chapter{font-size:2.4rem;}
     .count-num{font-size:2.6rem;}
   }
 </style>
@@ -369,8 +647,8 @@
 <main>
 
   <section class="hero">
-    <p class="eyebrow">A little surprise for Blessing ✨</p>
-    <p class="lead-line">September 26 is getting closer&hellip;</p>
+    <p class="eyebrow" id="eyebrow">A little surprise for Blessing ✨</p>
+    <p class="lead-line" id="leadLine">September 26 is getting closer&hellip;</p>
 
     <div class="portrait-wrap">
       <div class="portrait-glow"></div>
@@ -382,11 +660,10 @@
       </div>
     </div>
 
-    <p class="chapter">Chapter <span class="age-num" id="ageNumber">--</span> ✨</p>
-    <p class="subline">Another beautiful chapter is about to begin.</p>
+    <p class="subline" id="subline">Another beautiful day is about to begin.</p>
   </section>
 
-  <section class="countdown-section">
+  <section class="countdown-section" id="countdownSection">
     <p class="countdown-title">Counting down to her day</p>
     <div class="countdown-grid" id="countdownGrid">
       <div class="count-card">
@@ -406,10 +683,9 @@
         <div class="count-label">Seconds</div>
       </div>
     </div>
-    <div class="celebration" id="celebration">It&rsquo;s finally here! 🎂✨<br>Happy Birthday, Blessing!</div>
   </section>
 
-  <section class="gift-section">
+  <section class="gift-section" id="giftSection">
     <div class="flower-row">
       <span>🌸</span><span>🌷</span><span>🌸</span>
     </div>
@@ -431,32 +707,62 @@
     </div>
   </section>
 
+  <!-- ===================== BIRTHDAY EXPERIENCE ===================== -->
+  <!-- Hidden until September 26, 00:00 local device time, then revealed by JS. -->
+
+  <section class="birthday-section" id="birthdayReveal" hidden>
+    <h1 class="reveal-title"><span class="reveal-glow"></span>HAPPY BIRTHDAY,<br>BLESSING! 🎂✨</h1>
+    <div class="reveal-message">
+      <p>Today is your day 😂🎂</p>
+      <p>So I made you a little something instead of just saying &ldquo;Happy Birthday&rdquo; and disappearing.</p>
+      <p>I hope today gives you plenty of reasons to smile, laugh, and enjoy yourself.</p>
+      <p>Happy Birthday, Blessing. ❤️</p>
+    </div>
+    <button class="open-surprise-btn" id="openSurpriseBtn">🎁 Open your surprise</button>
+  </section>
+
+  <section class="birthday-section photo-experience" id="photoExperience" hidden>
+    <p class="section-label">A little memory lane</p>
+    <div class="photo-stage">
+      <div class="stage-photo-wrap">
+        <img class="stage-photo" id="stagePhoto" alt="A photo of Blessing">
+        <div class="stage-sweep" id="stageSweep"></div>
+      </div>
+      <div class="stage-caption-wrap">
+        <p class="stage-caption" id="stageCaption"></p>
+      </div>
+    </div>
+    <div class="stage-dots" id="stageDots">
+      <span class="stage-dot"></span>
+      <span class="stage-dot"></span>
+      <span class="stage-dot"></span>
+    </div>
+    <button class="stage-next-btn" id="stageNextBtn">Next &rsaquo;</button>
+  </section>
+
+  <section class="birthday-section secret-section" id="secretSection" hidden>
+    <p class="secret-lead">Wait&hellip; there's one more thing 👀</p>
+    <p class="secret-sub">Okay, one last thing.<br>Make a wish. 🎂</p>
+    <p class="secret-hint">press and hold the candle</p>
+    <button class="candle-wrap" id="candle" aria-label="Press and hold to blow out the candle">
+      <div class="candle-flame"></div>
+      <div class="candle-body"></div>
+    </button>
+    <p class="candle-message" id="candleMessage" hidden>Okayyy 😂<br>Now you can officially start enjoying your birthday.</p>
+  </section>
+
+  <section class="birthday-section final-section" id="finalSection" hidden>
+    <div class="final-card">
+      <p>Happy Birthday once again, Blessing. ❤️<br>
+      I hope this new year brings you good things, plenty of laughter, and many reasons to smile.</p>
+    </div>
+  </section>
+
   <footer>Made with care by James</footer>
 
 </main>
 
 <script>
-  /* =========================================================
-     EDIT THIS: Blessing's birth year, used to calculate her
-     age automatically. Month/day stay September 26.
-     ========================================================= */
-  const birthDate = new Date("2000-09-26"); // <-- change 2000 to her real birth year
-
-  /* ---------- Age calculation ---------- */
-  function calculateAge(birth, now){
-    let age = now.getFullYear() - birth.getFullYear();
-    const hasHadBirthdayThisYear =
-      (now.getMonth() > birth.getMonth()) ||
-      (now.getMonth() === birth.getMonth() && now.getDate() >= birth.getDate());
-    if(!hasHadBirthdayThisYear) age--;
-    return age;
-  }
-
-  function renderAge(){
-    const now = new Date();
-    document.getElementById('ageNumber').textContent = calculateAge(birthDate, now);
-  }
-
   /* ---------- Countdown to next Sept 26 ---------- */
   function getNextBirthday(now){
     const year = now.getFullYear();
@@ -475,14 +781,16 @@
 
   function pad(n){ return n.toString().padStart(2,'0'); }
 
+  let birthdayModeActive = false;
+
   function tickCountdown(){
     const now = new Date();
     const next = getNextBirthday(now);
 
     if(next === 'today'){
-      document.getElementById('countdownGrid').style.display = 'none';
-      document.getElementById('celebration').style.display = 'block';
-      renderAge();
+      if(!birthdayModeActive){
+        activateBirthdayMode();
+      }
       return;
     }
 
@@ -496,14 +804,150 @@
     document.getElementById('hours').textContent = pad(hours);
     document.getElementById('minutes').textContent = pad(minutes);
     document.getElementById('seconds').textContent = pad(seconds);
-
-    renderAge();
   }
 
   tickCountdown();
   setInterval(tickCountdown, 1000);
 
-  /* ---------- Gift interaction ---------- */
+  /* ---------- Transform into the birthday experience ---------- */
+  function activateBirthdayMode(){
+    birthdayModeActive = true;
+
+    // hide the pre-birthday content
+    document.getElementById('eyebrow').style.display = 'none';
+    document.getElementById('leadLine').style.display = 'none';
+    document.getElementById('subline').style.display = 'none';
+    document.getElementById('countdownSection').style.display = 'none';
+    document.getElementById('giftSection').style.display = 'none';
+
+    // reveal the big moment
+    const reveal = document.getElementById('birthdayReveal');
+    reveal.hidden = false;
+    requestAnimationFrame(() => reveal.classList.add('reveal'));
+
+    spawnCelebrationBurst();
+  }
+
+  /* ---------- Open your surprise -> cinematic photo stage ---------- */
+  const openSurpriseBtn = document.getElementById('openSurpriseBtn');
+  const photoExperience = document.getElementById('photoExperience');
+  const secretSection = document.getElementById('secretSection');
+
+  const photos = [
+    { src: 'https://i.ibb.co/sJHpNTVr/IMG-20260925-WA0074-1.jpg', caption: "So apparently you're innocent\u2026 \uD83D\uDE02 Meanwhile, you already admitted you were doing everything on purpose just because you were having fun. \uD83D\uDE2D\uD83D\uDE02" },
+    { src: 'https://i.ibb.co/PZw02hwg/IMG-20260925-WA0070-1.jpg', caption: 'Somehow you manage to be both innocent and troublesome at the same time. \uD83D\uDE02' },
+    { src: 'https://i.ibb.co/S4vC4qS6/IMG-20260925-WA0072.jpg', caption: "Anyway, today you're allowed to enjoy your day without anybody disturbing you. \uD83D\uDE0C\uD83C\uDF82" }
+  ];
+  let photoIndex = 0;
+
+  const stagePhoto = document.getElementById('stagePhoto');
+  const stageCaption = document.getElementById('stageCaption');
+  const stageSweep = document.getElementById('stageSweep');
+  const stageDots = document.querySelectorAll('.stage-dot');
+  const stageNextBtn = document.getElementById('stageNextBtn');
+
+  function showPhoto(i){
+    const photo = photos[i];
+
+    stagePhoto.classList.remove('active');
+    stageCaption.classList.remove('active');
+    stageSweep.classList.remove('sweep-active');
+
+    setTimeout(() => {
+      stagePhoto.src = photo.src;
+      stageCaption.textContent = photo.caption;
+
+      requestAnimationFrame(() => {
+        stagePhoto.classList.add('active');
+        void stageSweep.offsetWidth; // restart sweep animation
+        stageSweep.classList.add('sweep-active');
+        setTimeout(() => stageCaption.classList.add('active'), 350);
+      });
+    }, stagePhoto.classList.contains('active') ? 350 : 0);
+
+    stageDots.forEach((dot, idx) => dot.classList.toggle('active', idx === i));
+    stageNextBtn.textContent = (i === photos.length - 1) ? 'Continue \u203a' : 'Next \u203a';
+  }
+
+  openSurpriseBtn.addEventListener('click', () => {
+    openSurpriseBtn.disabled = true;
+    spawnCelebrationBurst();
+
+    photoExperience.hidden = false;
+    requestAnimationFrame(() => photoExperience.classList.add('reveal'));
+    showPhoto(0);
+
+    setTimeout(() => {
+      photoExperience.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+  });
+
+  stageNextBtn.addEventListener('click', () => {
+    if(photoIndex < photos.length - 1){
+      photoIndex++;
+      showPhoto(photoIndex);
+    } else {
+      secretSection.hidden = false;
+      requestAnimationFrame(() => secretSection.classList.add('reveal'));
+      spawnPetalBurst();
+      setTimeout(() => {
+        secretSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  });
+
+  /* ---------- Secret candle interaction ---------- */
+  const candle = document.getElementById('candle');
+  const candleMessage = document.getElementById('candleMessage');
+  let holdTimer = null;
+  let candleBlown = false;
+  const HOLD_MS = 900;
+
+  function startHold(){
+    if(candleBlown) return;
+    candle.classList.add('holding');
+    holdTimer = setTimeout(blowOutCandle, HOLD_MS);
+  }
+
+  function cancelHold(){
+    candle.classList.remove('holding');
+    if(holdTimer){
+      clearTimeout(holdTimer);
+      holdTimer = null;
+    }
+  }
+
+  function blowOutCandle(){
+    if(candleBlown) return;
+    candleBlown = true;
+    candle.classList.remove('holding');
+    candle.classList.add('blown');
+    candleMessage.hidden = false;
+    requestAnimationFrame(() => candleMessage.style.opacity = '1');
+    spawnCelebrationBurst();
+    revealFinalSection();
+  }
+
+  candle.addEventListener('pointerdown', (e) => { e.preventDefault(); startHold(); });
+  candle.addEventListener('pointerup', cancelHold);
+  candle.addEventListener('pointerleave', cancelHold);
+  candle.addEventListener('pointercancel', cancelHold);
+  // keyboard fallback (Enter / Space triggers a click with no pointer event)
+  candle.addEventListener('click', (e) => {
+    if(e.detail === 0) blowOutCandle();
+  });
+
+  /* ---------- Final message ---------- */
+  function revealFinalSection(){
+    const finalSection = document.getElementById('finalSection');
+    setTimeout(() => {
+      finalSection.hidden = false;
+      requestAnimationFrame(() => finalSection.classList.add('reveal'));
+      finalSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 900);
+  }
+
+  /* ---------- Pre-birthday gift teaser interaction ---------- */
   const giftBox = document.getElementById('giftBox');
   const hiddenMessage = document.getElementById('hiddenMessage');
   const giftHint = document.getElementById('giftHint');
@@ -526,11 +970,13 @@
   /* ---------- Ambient floating petals ---------- */
   const petalField = document.getElementById('petal-field');
   const petalEmojis = ['🌸','🌷','✨'];
+  const confettiEmojis = ['🎉','🎊','✨','🎈','🌸'];
 
-  function spawnPetal(){
+  function spawnPetal(emojiSet){
     const petal = document.createElement('span');
     petal.className = 'petal';
-    petal.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+    const set = emojiSet || petalEmojis;
+    petal.textContent = set[Math.floor(Math.random()*set.length)];
     const left = Math.random()*100;
     const duration = 9 + Math.random()*8;
     const drift = (Math.random()*80 - 40) + 'px';
@@ -543,13 +989,19 @@
   }
 
   for(let i=0; i<6; i++){
-    setTimeout(spawnPetal, i*900);
+    setTimeout(() => spawnPetal(), i*900);
   }
-  setInterval(spawnPetal, 1600);
+  setInterval(() => spawnPetal(), 1600);
 
   function spawnPetalBurst(){
     for(let i=0; i<14; i++){
-      setTimeout(spawnPetal, i*60);
+      setTimeout(() => spawnPetal(), i*60);
+    }
+  }
+
+  function spawnCelebrationBurst(){
+    for(let i=0; i<26; i++){
+      setTimeout(() => spawnPetal(confettiEmojis), i*45);
     }
   }
 </script>
